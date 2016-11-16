@@ -3,6 +3,9 @@ using System.Collections;
 
 public abstract class RobotPart: MonoBehaviour
 {
+	public string part_name;
+	public string part_description;
+
 	public    ushort max_durab;
 	protected ushort cur_durab;
 
