@@ -1,7 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class PartTorso : RobotPart 
+public class PartTorso : RobotPart 
 {
-	//
+	override protected void setSelfOnManager()
+	{
+		manager.setTorso(this);
+	}
+
+	override protected void onDestroyed()
+	{
+		Debug.Log("PartTorso: destroyed!");
+	}
 }

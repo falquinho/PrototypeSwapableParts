@@ -3,90 +3,48 @@ using System.Collections;
 
 public class PartsManager : MonoBehaviour 
 {
-	public GameObject torso;
-	public GameObject arms;
-	public GameObject legs;
-	public GameObject supp;
+	private PartSupport support;
+	private PartArm	 	arm;
+	private PartLeg		leg;
+	private PartTorso	torso;
 
-	private Robot robot;
-
-	public void Start()
+	public void setSupport(PartSupport s)
 	{
-		robot = GetComponent<Robot>();
-
-		if (robot == null)
-			Debug.Log("PartsManager: ERROR: cant find component Robot");
+		support = s;
 	}
 
-	public void setArm(GameObject obj)
+	public void setArm(PartArm a)
 	{
-		if (obj.GetComponent<PartArm>() == null)
-		{
-			Debug.Log("PartsManager.SetArm: component not found!");
-			return;
-		}
-
-		GameObject old = arms;
-
-		arms = (GameObject)Instantiate (obj, old.transform.position, Quaternion.identity);
-		arms.transform.parent = transform;
-
-		Destroy(old);
-
-		robot.arms = arms.GetComponent<PartArm>();
+		arm = a;
 	}
 
-	public void setTorso(GameObject obj)
+	public void setLeg(PartLeg l)
 	{
-		if (obj.GetComponent<PartTorso>() == null)
-		{
-			Debug.Log("PartsManager.SetTorso: component not found!");
-			return;
-		}
-
-		GameObject old = torso;
-
-		torso = (GameObject)Instantiate (obj);
-		torso.transform.parent = transform;
-
-		Destroy(old);
-
-		robot.torso = torso.GetComponent<PartTorso>();
+		leg = l;
 	}
 
-	public void setLegs(GameObject obj)
+	public void setTorso(PartTorso t)
 	{
-		if (obj.GetComponent<PartLeg>() == null)
-		{
-			Debug.Log("PartsManager.SetLegs: component not found!");
-			return;
-		}
-
-		GameObject old = legs;
-
-		legs = (GameObject)Instantiate (obj);
-		legs.transform.parent = transform;
-
-		Destroy(old);
-
-		robot.legs = legs.GetComponent<PartLeg>();
+		torso = t;
 	}
 
-	public void setSupport(GameObject obj)
+	public PartSupport getSupport()
 	{
-		if (obj.GetComponent<PartSupport>() == null)
-		{
-			Debug.Log("PartsManager.setSupport: component not found!");
-			return;
-		}
+		return support;
+	}
 
-		GameObject old = supp;
+	public PartArm getArm()
+	{
+		return arm;
+	}
 
-		supp = (GameObject)Instantiate (obj);
-		supp.transform.parent = transform;
+	public PartLeg getLeg()
+	{
+		return leg;
+	}
 
-		Destroy(old);
-
-		robot.supp = supp.GetComponent<PartSupport>();
+	public PartTorso getTorso()
+	{
+		return torso;
 	}
 }

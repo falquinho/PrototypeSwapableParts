@@ -1,9 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class PartArm : RobotPart 
+public class PartArm : RobotPart 
 {
-	public ushort fire_power;
+	public ushort firePower;
 
-	abstract public void fireWeapon();
+	override protected void setSelfOnManager()
+	{
+		manager.setArm(this);
+	}
+
+	override protected void onDestroyed()
+	{
+		Debug.Log("PartArm: destroyed!");
+	}
 }

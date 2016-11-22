@@ -3,31 +3,70 @@ using System.Collections;
 
 public abstract class RobotPart: MonoBehaviour
 {
-	public string part_name;
-	public string part_description;
+	public ushort maxDurab;
 
-	public    ushort max_durab;
-	protected ushort cur_durab;
+	protected static PartsManager manager;
+
+	protected ushort currDurab;
+	protected bool broken;
+
+	protected Skill skill;
 
 	public void Start ()
 	{
-		cur_durab = max_durab;
+		currDurab = maxDurab;
+		if (currDurab <= 0)
+		{
+			broken = true;
+			onDestroyed();
+		}
+		else 
+			broken = false;
+
+		skill = GetComponent<Skill>();
+
+		manager = transform.GetComponentInParent<PartsManager>();
+		if (manager == null)
+			Debug.Log("RobotPart.Start: failed to get parent PartsManager");
+		else
+			setSelfOnManager();
+	}
+
+	public void setManager(PartsManager m)
+	{
+		manager = m;
 	}
 
 	public ushort takeDamage(ushort dmg)
 	{
-		cur_durab -= dmg;
+		currDurab -= dmg;
 
-		if (cur_durab == 0)
+		if (currDurab == 0)
+		{
+			broken = true;
 			onDestroyed();
+		}
 
-		return cur_durab;
+		return currDurab;
+	}
+
+	public void recover(ushort amount)
+	{
+		currDurab += amount;
+		if (currDurab > maxDurab)
+			currDurab = maxDurab;
+
+		if (currDurab > 0)
+			broken = false;
+
 	}
 
 	public ushort getCurrentDurability()
 	{
-		return cur_durab;
+		return currDurab;
 	}
 
 	abstract protected void onDestroyed();
+
+	abstract protected void setSelfOnManager();
 }

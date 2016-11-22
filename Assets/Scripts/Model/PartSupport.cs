@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class PartSupport : RobotPart
+public class PartSupport : RobotPart
 {
-	public SkillPassive skill;
-
-	public void Start()
+	override protected void setSelfOnManager()
 	{
-		base.Start();
+		manager.setSupport(this);
+	}
 
-		skill = GetComponent<SkillPassive>();
-
-		if (skill == null)
-			Debug.Log("PartSupport: cant find SkillPassive component!");
+	override protected void onDestroyed()
+	{
+		Debug.Log("PartSupport: destroyed!");
 	}
 }
